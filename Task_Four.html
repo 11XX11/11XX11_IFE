@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task 04</title>
+    <style>
+        .container{
+            width: 600px;
+            display: flex;
+            display: -webkit-flex;
+            align-items:center;
+            justify-content:space-between;
+        }
+        input{
+            height: 23px;
+            border: 1px solid #000;
+            padding:0;
+        }
+        button{
+            height:25px;
+            width: 60px;
+        }
+
+        .content{
+            display: flex;
+            display: -webkit-flex;
+            margin-top: 15px;
+        }
+        .queue{
+            height: 60px;
+            width: 60px;
+            margin-right: 15px ;
+            background: #FF4500;
+            text-align: center;
+            line-height: 60px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" >
+    <input id="input" type="text">
+    <button id="left_in">左侧入</button>
+    <button id="right_in">右侧入</button>
+    <button id="left_out">左侧出</button>
+    <button id="right_out">右侧出</button>
+</div>
+<div class="content" id="content">
+
+</div>
+<script type="text/javascript">
+    function $(id){
+        return document.getElementById(id);
+    }
+
+    var num;
+
+    var left_in=$("left_in"), right_in=$("right_in"),left_out=$("left_out"),right_out=$("right_out");
+    var input=$("input");
+    var content=$("content");
+    var content_inside=content.getElementsByTagName("div");
+
+
+
+
+   //正序队列方法
+    right_in.addEventListener("click",function(){
+        num.push(input.value);
+        console.log(num);
+
+        var div=document.createElement("div");
+        div.className="queue";
+        div.innerHTML=input.value;
+
+        var str=num.toString();//将当前数组储存为字符串
+        var length=str.replace(/,/g,'').length-1;//获取当前数组转化为字符串后的长度，利用正则表达式去除字符串中的逗号（exp：[1,2,3] tostring "1,2,3",长度为5，去除逗号后长度为3）
+
+        div.addEventListener("click",function(){
+            content.removeChild(this); //在每个新增加的div上绑定click事件，触发时删除该节点
+            var position=num.indexOf(this.innerHTML,length);//使用indexof方法查找当前节点所代表的数组元素，在数组中的准确位置，从第length项开始查找，保证查找到的不是之前输入的重复数值
+            num.splice(position,1);//删除该元素
+            console.log(num);
+        });
+
+        content.appendChild(div);
+
+        input.value=null;
+
+
+    });
+    left_out.addEventListener("click", function () {
+        if(content.firstElementChild){
+            alert(num.shift());
+            console.log(num);
+            content.removeChild(content_inside[0]);
+
+        }
+    });
+
+    //倒序队列方法
+    left_in.addEventListener("click",function(){
+        num.unshift(input.value);
+        console.log(num);
+
+        var str=num.toString();
+        var length=str.replace(/,/g,'').length-1;
+
+        var div=document.createElement("div");
+        div.className="queue";
+        div.innerHTML=input.value;
+        div.addEventListener("click",function(){
+            content.removeChild(this);
+
+            var length_now=num.toString().replace(/,/g,'').length-1;//获取当前数组实际长度
+            var position=num.indexOf(this.innerHTML,length_now-length);//由于这里模拟的是反向队列，使用indexof查找时，用现数组长度减去输入时数组长度，可精确获得该元素位置
+            num.splice(position,1);
+            console.log(num);
+        });
+
+        content.insertBefore(div,content_inside[0]);
+
+        input.value=null;
+
+    });
+    right_out.addEventListener("click", function () {
+        if(content.lastElementChild){
+            alert(num.pop());
+            console.log(num);
+            content.removeChild(content.lastElementChild);
+        }
+    });
+
+
+
+
+
+</script>
+
+</body>
+</html>

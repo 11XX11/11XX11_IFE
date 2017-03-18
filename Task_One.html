@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task 01</title>
+</head>
+<body>
+<label>请输入北京今天空气质量：<input id="aqi-input" type="text"></label>
+<button id="btn">确认填写</button>
+
+<div>您输入的值是：<span id="aqi-display">尚无录入</span></div>
+
+<script type="text/javascript">
+
+    (function() {
+        /*
+         在注释下方写下代码
+         给按钮button绑定一个点击事件
+         在事件处理函数中
+         获取aqi-input输入的值，并显示在aqi-display中
+         */
+        var btn=document.getElementById("btn");//获取按钮
+        btn.addEventListener("click",function(){
+            var val=document.getElementById("aqi-input").value;
+            var aqi_display=document.getElementById("aqi-display");
+            aqi_display.innerHTML=val;
+        },false);
+        /*
+        添加事件监听器，当触发click事件使调用函数，将api-input中输入的值，显示在api-display中
+         */
+    })();
+
+</script>
+</body>
+</html>
